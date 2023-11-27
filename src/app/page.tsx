@@ -21,7 +21,6 @@ import {
   Flex,
   ContainerProps,
   InputGroup,
-  createIcon,
   InputLeftAddon,
 } from "@chakra-ui/react";
 import { Search2Icon, ExternalLinkIcon } from "@chakra-ui/icons";
@@ -107,7 +106,7 @@ export default function Home() {
   const metaData = {
     title: "Find your next domain name",
     description:
-      "Find the perfect domain name in seconds with the power of AI.",
+      "Find the perfect domain name in seconds with the help of AI.",
     url: "https://www.forage.domains",
     robots: "all",
     image:
@@ -148,7 +147,7 @@ export default function Home() {
                 <Input
                   id="prompt"
                   name="prompt"
-                  backgroundColor={'white'}
+                  backgroundColor={"white"}
                   placeholder="A dating app exclusively for dinosaur lovers."
                   value={searchInput}
                   onChange={(event) => setSearchInput(event.target.value)}
@@ -169,7 +168,11 @@ export default function Home() {
             {isLoadingDomains ? (
               <Spinner />
             ) : (
-              <TableContainer backgroundColor={'white'} mt={4} style={{ borderRadius: '6px' }}>
+              <TableContainer
+                backgroundColor={"white"}
+                mt={4}
+                style={{ borderRadius: "6px" }}
+              >
                 <Table variant="simple">
                   <TableCaption>Available Domains</TableCaption>
                   <Thead>
@@ -186,7 +189,7 @@ export default function Home() {
                         <Td>
                           <HStack spacing={1}>
                             {domain.tlds.map((tld) => (
-                              <Tag key={tld} >{tld}</Tag>
+                              <Tag key={tld}>{tld}</Tag>
                             ))}
                           </HStack>
                         </Td>
@@ -205,6 +208,10 @@ export default function Home() {
               </TableContainer>
             )}
           </Box>
+          <HStack mt={8}>
+            <Link href="https://www.kocobee.com/privacy" isExternal>Privacy</Link>
+            <Link href="https://www.kocobee.com/terms" isExternal>Terms</Link>
+          </HStack>
         </>
       </Section>
     </main>
