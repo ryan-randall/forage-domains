@@ -23,8 +23,7 @@ type DomainItem = {
   tlds: string[];
 };
 
-const FREE_LOOKUPS = 10;
-const FREE_TLDS = [".com", ".io", ".net"];
+const FREE_LOOKUPS = 12;
 const FREE_LIMIT = 3;
 
 const createSiteNames = async (prompt: string, lookups: number) => {
@@ -101,8 +100,8 @@ export async function POST(
   const data = await req.json();
   if (req.method === 'POST') {
     const siteNames = await createSiteNames(data.prompt, FREE_LOOKUPS);
-    console.log('*** siteNames', siteNames);
-    const availableDomains = await checkAvailability(siteNames, FREE_TLDS, FREE_LIMIT);
+    await wait(500);
+    const availableDomains = await checkAvailability(siteNames, data.tlds, FREE_LIMIT);
     const results = Object.entries(availableDomains).map(([siteName, tlds]) => ({
       siteName,
       tlds,
