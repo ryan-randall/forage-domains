@@ -21,7 +21,7 @@ import {
   Flex,
   ContainerProps,
   InputGroup,
-  InputLeftAddon,
+  Stack,
   TagLabel,
   TagCloseButton,
 } from "@chakra-ui/react";
@@ -106,7 +106,7 @@ export default function Home() {
   const [tlds, setTLDs] = useState<TLD[]>(defaultTlds);
   const [domains, setDomains] = useState<DomainTableItem[]>(defaultResults);
   const searchDomains = async () => {
-    const activeTlds = tlds.filter((tld) => tld.active).map(tld => tld.name);
+    const activeTlds = tlds.filter((tld) => tld.active).map((tld) => tld.name);
     if (searchInput && searchInput.length >= 20 && searchInput.length <= 150) {
       setErrorText("");
       setIsLoadingDomains(true);
@@ -190,11 +190,11 @@ export default function Home() {
           </Heading>
           <Box w="100%">
             <HStack>
-              <InputGroup size={{ md: "lg", sm: "sm" }} mt={4}>
+              <InputGroup size={{ lg: "lg", sm: "md" }} mt={4}>
                 <Input
                   id="prompt"
                   name="prompt"
-                  placeholder="A dating app exclusively for dinosaur lovers."
+                  placeholder="A dating app for dinosaur lovers."
                   value={searchInput}
                   onChange={(event) => setSearchInput(event.target.value)}
                 />
@@ -202,6 +202,7 @@ export default function Home() {
                   colorScheme="yellow"
                   aria-label="Search Domains"
                   icon={<Search2Icon />}
+                  minW={12}
                   onClick={searchDomains}
                 />{" "}
               </InputGroup>
@@ -211,13 +212,20 @@ export default function Home() {
                 {errorText}
               </Text>
             )}
-            <HStack spacing={4} mt={4}>
+            <Stack
+              direction={["column", "row"]}
+              spacing={4}
+              mt={4}
+              align="center"
+              justify="center"
+            >
               <Text fontWeight={"semibold"}>{`TLDs (Max ${MAX_TLDS}):`}</Text>
               {tlds.map((tld) => (
                 <Tag
                   size={"md"}
                   key={tld.name}
                   variant="subtle"
+                  maxW={24}
                   colorScheme={tld.active ? "cyan" : "gray"}
                 >
                   <TagLabel>{tld.name}</TagLabel>
@@ -227,44 +235,43 @@ export default function Home() {
                     <TagRightIcon
                       boxSize="12px"
                       as={AddIcon}
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: "pointer" }}
                       onClick={() => handleTagAdd(tld.name)}
                     />
                   )}
                 </Tag>
               ))}
-            </HStack>
+            </Stack>
             {isLoadingDomains ? (
               <Spinner />
             ) : (
-              <TableContainer mt={4} style={{ borderRadius: "6px" }}>
+              <TableContainer mt={4} overflow="hidden">
                 <Table variant="simple">
                   <TableCaption>Available Domains</TableCaption>
                   <Thead>
                     <Tr>
                       <Th>Domain</Th>
-                      <Th>TLDs</Th>
-                      <Th>Link</Th>
+                      <Th>Available</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
                     {domains.map((domain) => (
                       <Tr key={domain.siteName}>
-                        <Td>{domain.siteName}</Td>
+                        <Td fontSize={{ lg: "lg", sm: "sm" }}>
+                          {domain.siteName}
+                        </Td>
                         <Td>
                           <HStack spacing={1}>
                             {domain.tlds.map((tld) => (
-                              <Tag key={tld}>{tld}</Tag>
+                              <Link
+                                isExternal
+                                href={`${domain.link}${tld}`}
+                                key={tld}
+                              >
+                                <Tag>{tld}</Tag>
+                              </Link>
                             ))}
                           </HStack>
-                        </Td>
-                        <Td>
-                          <Link
-                            isExternal
-                            href={`${domain.link}${domain.tlds[0]}`}
-                          >
-                            Buy now <ExternalLinkIcon mx="4px" />
-                          </Link>
                         </Td>
                       </Tr>
                     ))}
