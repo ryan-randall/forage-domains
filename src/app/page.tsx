@@ -169,7 +169,6 @@ export default function Home() {
               <Spinner />
             ) : (
               <TableContainer
-                backgroundColor={"white"}
                 mt={4}
                 style={{ borderRadius: "6px" }}
               >
