@@ -147,7 +147,6 @@ export default function Home() {
                 <Input
                   id="prompt"
                   name="prompt"
-                  backgroundColor={"white"}
                   placeholder="A dating app exclusively for dinosaur lovers."
                   value={searchInput}
                   onChange={(event) => setSearchInput(event.target.value)}
